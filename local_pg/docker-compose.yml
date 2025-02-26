@@ -22,6 +22,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
+    networks:
+      - pg-dbt-net
 
   kestra:
     image: kestra/kestra:latest
@@ -63,6 +65,8 @@ services:
     depends_on:
       postgres:
         condition: service_started
+    networks:
+      - pg-dbt-net
 
   postgres-2:
     image: postgres
@@ -80,3 +84,21 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
+    networks:
+      - pg-dbt-net
+
+  dbt-service:
+    image: ghcr.io/dbt-labs/dbt-postgres
+    volumes:
+      - ./app:/usr/app
+      - ./root:/root/.dbt/
+    entrypoint: ["bash"]
+    stdin_open: true
+    tty: true
+    networks:
+      - pg-dbt-net
+
+
+networks:
+  pg-dbt-net:
+    external: true

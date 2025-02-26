@@ -1,0 +1,12 @@
+taxi_rides_ny:
+  outputs:
+    dev:
+      dbname: postgres-zoomcamp
+      host: postgres-db
+      pass: k3str4
+      port: 5432
+      schema: public
+      threads: 4
+      type: postgres
+      user: kestra
+  target: dev
